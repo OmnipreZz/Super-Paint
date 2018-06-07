@@ -1,15 +1,17 @@
-
+// declare express !!
 var express = require('express');
 
-
+//declare express sur app
 var app = express();
 
+//appel moteur ejs
+app.set('view engine', 'ejs');
 
-//appel du fdossier public
+//appel du dossier public (css, script.js)
 app.use(express.static('public'));
 
 
-//appel de ma page ejs
+//appel du fichier index.ejs (accueil)
 app.get('/', function (req, res) {
     res.render('index.ejs');
 });
