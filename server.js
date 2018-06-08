@@ -16,15 +16,21 @@ app.get('/', function (req, res) {
     res.render('index.ejs');
 });
 
-
-
-
-
 // erreur 404
 app.use(function (req, res, next) {
     res.setHeader('Content-Type', 'text/plain');
     res.status(404).send('Page introuvable !');
 });
 
-// localhost:8080
-app.listen(8080);
+//server sur port 8080
+server = app.listen(process.env.PORT || 8080);
+
+
+
+//on require socket.io
+var io = require('socket.io')(server);
+
+io.sockets.on('connection', function (socket, pseudo) {
+
+
+});
