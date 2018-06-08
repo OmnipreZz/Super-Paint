@@ -9,6 +9,7 @@ app.set('view engine', 'ejs');
 
 //appel du dossier public (css, script.js)
 app.use(express.static('public'));
+console.log('Mon serveur socket est en marche !');
 
 
 //appel du fichier index.ejs (accueil)
@@ -30,7 +31,16 @@ server = app.listen(process.env.PORT || 8080);
 //on require socket.io
 var io = require('socket.io')(server);
 
-io.sockets.on('connection', function (socket, pseudo) {
+io.sockets.on('connection', newConnection);
 
-
-});
+function newConnection(socket) {
+    console.log('new connection: ' + socket.id);
+    
+    socket.on('mouse', mouseMsg);
+    
+    function mouseMsg(data) {
+        socket.broadcast.emit('mouse', data);
+        // io.sockets.emit('mouse', data);
+        console.log(data);
+    }
+}

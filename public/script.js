@@ -1,14 +1,32 @@
-var socket = io.connect('http://localhost:8080');
+var socket;
 
 
 function setup() {
-    createCanvas(710, 400);
+    createCanvas(1580, 600);
     background(200);
+    
+    socket = io.connect('http://localhost:8080');
+    socket.on('mouse', newDrawing);
 }
 
-function draw() {
-    stroke(600);
-    if (mouseIsPressed === true) {
-        line(mouseX, mouseY, pmouseX, pmouseY);
-    }
+function newDrawing(data) {
+    noStroke();
+    fill(255, 0, 100);
+    ellipse(data.x, data.y, 15, 15);    
 }
+
+function mouseDragged() {
+    console.log('Sending: ' + mouseX + ',' + mouseY);
+    
+    var data = {
+        x: mouseX,
+        y: mouseY
+    }
+    socket.emit('mouse', data);
+    
+    noStroke();
+    fill(255, 255, 100);
+    ellipse(mouseX, mouseY, 15, 15);   
+
+}
+
